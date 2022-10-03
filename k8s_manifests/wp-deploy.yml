@@ -34,11 +34,11 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: wordpress  #4.8-apache # latest: wordpress:4.9-php7.2-apache
+      - image: alexv8288/wordpress_app:latest
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
-          value: 192.168.202.4 #wordpress-db # This one is from Service
+          value: 192.168.202.4
         - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
