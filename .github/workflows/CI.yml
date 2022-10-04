@@ -41,5 +41,8 @@ jobs:
       env:
         TAG: ${{ steps.tag.outputs.tag }}
         
+    - name: cat
+      run: |
+        cat ./k8s/wp-deploy.yml
         
         
