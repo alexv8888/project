@@ -58,7 +58,7 @@ jobs:
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        copy ./k8s/wp-deploy.yml ./deploy
+        cp ./k8s/wp-deploy.yml ./deploy
         git add .
         git commit -m "add image ${{ steps.tag.outputs.tag }}"
         git push origin main
