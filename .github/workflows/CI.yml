@@ -41,8 +41,26 @@ jobs:
       env:
         TAG: ${{ steps.tag.outputs.tag }}
         
-    - name: cat
+    - name: Test manifests
+      continue-on-error: true
+      uses: instrumenta/kubeval-action@master
+      with:
+        files: ./k8s
+        
+    - uses: actions/checkout@v3
+      with:
+        repository: alexv8888/manifests
+        ref: 'main'
+        token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+        path: deploy
+        
+    - name: Commit and push manifest
       run: |
-        cat ./k8s/wp-deploy.yml
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+        copy ./k8s/wp-deploy.yml ./deploy
+        git add .
+        git commit -m "add image ${{ steps.tag.outputs.tag }}"
+        git push origin main
         
         
