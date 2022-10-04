@@ -51,6 +51,7 @@ jobs:
        
     - name: Commit and push manifest
       run: |
+        rm ./app/*
         cp ./k8s_template/wp-deploy.yml ./app
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
