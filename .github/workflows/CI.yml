@@ -65,5 +65,5 @@ jobs:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         SLACK_USERNAME: "Github actions bot"
         SLACK_COLOR: ${{ job.status }} 
-        SLACK_TITLE: "Task: adding image ${{ steps.tag.outputs.tag }}"
+        SLACK_TITLE: "Task: adding image ${{ steps.tag.outputs.tag }} - ${{ job.status }}"
         
