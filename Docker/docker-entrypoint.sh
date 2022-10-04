@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+
+#comment for test purposes
 set -Eeuo pipefail
 
 if [[ "$1" == apache2* ]] || [ "$1" = 'php-fpm' ]; then
