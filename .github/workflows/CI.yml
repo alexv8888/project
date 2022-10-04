@@ -34,3 +34,12 @@ jobs:
         file: ./Docker/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wordpress_app:${{ steps.tag.outputs.tag }}
+        
+    - uses: cschleiden/replace-tokens@v1
+      with:
+        files: '["./k8s/wp-deploy.yml"]'
+      env:
+        TAG: ${{ steps.tag.outputs.tag }}
+        
+        
+        
