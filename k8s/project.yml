@@ -83,3 +83,40 @@ metadata:
 type: Opaque
 data:
   password: c2VjcmV0cGFzcw==  #secretpass
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-front
+  namespace: project
+  labels:
+    app: wordpress
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: wordpress
+    tier: frontend
+  type: LoadBalancer
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wp
+  namespace: project
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - host: wp.k8s-3.sa 
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wordpress-front
+                port:
+                  number: 80
