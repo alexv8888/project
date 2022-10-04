@@ -38,7 +38,7 @@ jobs:
         
     - uses: cschleiden/replace-tokens@v1
       with:
-        files: '[".k8s_template/wp-deploy.yml"]'
+        files: '["./k8s_template/wp-deploy.yml"]'
       env:
         TAG: ${{ steps.tag.outputs.tag }}
         
@@ -51,7 +51,7 @@ jobs:
        
     - name: Commit and push manifest
       run: |
-        cp ./k8s_template/wp-deploy.yml ./app/wp-deploy.yml
+        cp ./k8s_template/wp-deploy.yml ./app
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
         git add app/wp-deploy.yml
