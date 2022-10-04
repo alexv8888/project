@@ -23,7 +23,6 @@ spec:
 
 #---
 #apiVersion: v1
-
 #kind: PersistentVolume
 #metadata:
 #  name: db-pv-volume
@@ -100,6 +99,7 @@ spec:
     app: wordpress
     tier: frontend
   type: ClusterIP
+
 
 ---
 apiVersion: networking.k8s.io/v1
