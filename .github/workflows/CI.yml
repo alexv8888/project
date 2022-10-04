@@ -12,6 +12,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: '0'
+        path: main
         
     - name: Bump version and push tag
       id: tag
@@ -30,14 +31,14 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        context: ./Docker
-        file: ./Docker/Dockerfile
+        context: ./main/Docker
+        file: ./main/Docker/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wordpress_app:${{ steps.tag.outputs.tag }}
         
     - uses: cschleiden/replace-tokens@v1
       with:
-        files: '["./k8s/wp-deploy.yml"]'
+        files: '["./main/k8s/wp-deploy.yml"]'
       env:
         TAG: ${{ steps.tag.outputs.tag }}
         
@@ -45,7 +46,7 @@ jobs:
       continue-on-error: true
       uses: instrumenta/kubeval-action@master
       with:
-        files: ./k8s
+        files: ./main/k8s
         
     - uses: actions/checkout@v3
       with:
@@ -58,7 +59,7 @@ jobs:
       run: |
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        cp ./k8s/wp-deploy.yml ./deploy
+        cp ./main/k8s/wp-deploy.yml ./deploy
         git add .
         git commit -m "add image ${{ steps.tag.outputs.tag }}"
         git push origin main
