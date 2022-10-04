@@ -19,6 +19,7 @@ jobs:
       uses: anothrNick/github-tag-action@1.40.0
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        SOURCE: ./main
         WITH_V: true
         DEFAULT_BUMP: patch
         
