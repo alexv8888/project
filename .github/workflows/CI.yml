@@ -57,9 +57,10 @@ jobs:
         
     - name: Commit and push manifest
       run: |
+        cp ./main/k8s/wp-deploy.yml ./deploy
+        cd ./deploy
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        cp ./main/k8s/wp-deploy.yml ./deploy
         git add .
         git commit -m "add image ${{ steps.tag.outputs.tag }}"
         git push origin main
