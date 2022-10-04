@@ -11,8 +11,12 @@ spec:
     matchLabels:
       app: wordpress
       tier: frontend
+  replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "50%"
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -20,7 +24,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: alexv8288/wordpress_app:v0.0.19
+      - image: alexv8288/wordpress_app:v0.0.21
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
@@ -43,4 +47,4 @@ spec:
       volumes:
       - name: wordpress-persistent-storage
         persistentVolumeClaim:
-          claimName: wp-pv-claim
+          claimName: wp-pv-claim #
