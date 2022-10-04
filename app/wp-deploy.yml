@@ -24,7 +24,7 @@ spec:
         tier: frontend
     spec:
       containers:
-      - image: alexv8288/wordpress_app:v0.0.24
+      - image: alexv8288/wordpress_app:v0.0.25
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
