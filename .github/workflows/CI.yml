@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - Docker/*
+        k8s_template/*
 jobs:
   build:
     runs-on: ubuntu-latest
