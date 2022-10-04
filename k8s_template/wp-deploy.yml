@@ -11,8 +11,12 @@ spec:
     matchLabels:
       app: wordpress
       tier: frontend
+  replicas: 3
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "50%"
+      maxUnavailable: 0
   template:
     metadata:
       labels:
