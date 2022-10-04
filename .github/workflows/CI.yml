@@ -8,14 +8,13 @@ on:
       - k8s_template/*
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     
     - name: Checkout
       uses: actions/checkout@v3
       with:
         fetch-depth: '0'
-
         
     - name: Bump version and push tag
       id: tag
@@ -50,8 +49,7 @@ jobs:
       uses: instrumenta/kubeval-action@master
       with:
         files: ./k8s_template
-        
-       
+            
     - name: Commit and push manifest to the app folder
       run: |
         cp ./k8s_template/* ./app
@@ -61,4 +59,11 @@ jobs:
         git commit -m "add image ${{ steps.tag.outputs.tag }}"
         git push origin main
         
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_USERNAME: "Github actions bot"
+        SLACK_COLOR: ${{ job.status }} 
+        SLACK_TITLE: "Task: adding image ${{ steps.tag.outputs.tag }}"
         
