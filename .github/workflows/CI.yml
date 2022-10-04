@@ -51,7 +51,7 @@ jobs:
       with:
         repository: alexv8888/manifests
         ref: 'main'
-        token:  ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+        token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
         path: deploy
         
     - name: Commit and push manifest
