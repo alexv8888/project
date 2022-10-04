@@ -12,14 +12,13 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: '0'
-        path: main
+
         
     - name: Bump version and push tag
       id: tag
       uses: anothrNick/github-tag-action@1.40.0
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        SOURCE: ./main
         WITH_V: true
         DEFAULT_BUMP: patch
         
@@ -32,14 +31,14 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
-        context: ./main/Docker
-        file: ./main/Docker/Dockerfile
+        context: ./Docker
+        file: ./Docker/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wordpress_app:${{ steps.tag.outputs.tag }}
         
     - uses: cschleiden/replace-tokens@v1
       with:
-        files: '["./main/k8s/wp-deploy.yml"]'
+        files: '[".k8s/wp-deploy.yml"]'
       env:
         TAG: ${{ steps.tag.outputs.tag }}
         
@@ -47,22 +46,15 @@ jobs:
       continue-on-error: true
       uses: instrumenta/kubeval-action@master
       with:
-        files: ./main/k8s
+        files: ./k8s
         
-    - uses: actions/checkout@v3
-      with:
-        repository: alexv8888/manifests
-        ref: 'main'
-        token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-        path: deploy
-        
+       
     - name: Commit and push manifest
       run: |
-        cp ./main/k8s/wp-deploy.yml ./deploy
-        cd ./deploy
+        cp ./k8s/wp-deploy.yml ./app
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
-        git add .
+        git add ./app/wp-deploy.yml
         git commit -m "add image ${{ steps.tag.outputs.tag }}"
         git push origin main
         
