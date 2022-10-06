@@ -161,6 +161,6 @@ VOLUME /var/www/html
 
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
 COPY docker-entrypoint.sh /usr/local/bin/
-
+RUN echo "define( 'WP_AUTO_UPDATE_CORE', false );" >> wp-config.php
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
