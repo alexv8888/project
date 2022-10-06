@@ -23,7 +23,6 @@ RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libfreetype6-dev \
-		libicu-dev \
 		libjpeg-dev \
 		libmagickwand-dev \
 		libpng-dev \
@@ -40,7 +39,6 @@ RUN set -ex; \
 		bcmath \
 		exif \
 		gd \
-		intl \
 		mysqli \
 		zip \
 	; \
@@ -122,8 +120,8 @@ RUN set -eux; \
 	find /etc/apache2 -type f -name '*.conf' -exec sed -ri 's/([[:space:]]*LogFormat[[:space:]]+"[^"]*)%h([^"]*")/\1%a\2/g' '{}' +
 
 RUN set -eux; \
-	version='6.1-beta3'; \
-	sha1='d4c0385a0458cd4db15f6c9db971f597423cc363'; \
+	version='5.8.3'; \
+	sha1='3be7ed4dc6f46fe98271b974c88153640e95ad49'; \
 	\
 	curl -o wordpress.tar.gz -fL "https://wordpress.org/wordpress-$version.tar.gz"; \
 	echo "$sha1 *wordpress.tar.gz" | sha1sum -c -; \
