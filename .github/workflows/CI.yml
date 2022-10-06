@@ -41,8 +41,8 @@ jobs:
     - name: Repository Dispatch
       uses: peter-evans/repository-dispatch@v1
       with:
-        token: ${{ secrets.PAT_TOKEN }}
-        repository: alexv8288/manifests
+        token: ${{ secrets.MANIFESTS_ACTION }}
+        repository: alexv8888/manifests
         event-type: new-image
         client-payload: '{"image": "alexv8288/wordpress_app:${{ steps.tag.outputs.tag }}"}' 
         
