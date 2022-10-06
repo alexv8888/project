@@ -6,9 +6,13 @@
       - mariadb-client
       - python3-pymysql
       - python3-mysqldb
-    db_name: "wp_database"
-    db_user: "wp_user"
-    db_pass: "secretpass"
+    #db_name: "wp_database"
+    #db_user: "wp_user"
+    #db_pass: "secretpass"
+    MYSQL_DATABASE: "drupal"
+    MYSQL_USER: "user"
+    MYSQL_PASSWORD: "secretpass"
+    MYSQL_ROOT_PASSWORD: "secretpass"
   pre_tasks:
   - name: Prepare. Install packages
     apt:
@@ -38,19 +42,19 @@
     command: service mysql restart
 
   - mysql_db:
-      name: "{{ db_name }}"
+      name: "{{ MYSQL_DATABASE }}"
       state: absent
       login_unix_socket: /var/run/mysqld/mysqld.sock
 
   - mysql_db:
-      name: "{{ db_name }}"
+      name: "{{ MYSQL_DATABASE }}"
       encoding: utf8
       login_unix_socket: /var/run/mysqld/mysqld.sock
 
   - mysql_user:
-      name: "{{ db_user }}"
+      name: "{{ MYSQL_USER }}"
       host: "%"
-      password: "{{ db_pass }}"
-      priv: "{{ db_name }}.*:ALL"
+      password: "{{ MYSQL_PASSWORD }}"
+      priv: "{{ MYSQL_DATABASE }}.*:ALL"
       login_unix_socket: /var/run/mysqld/mysqld.sock
     no_log: yes
