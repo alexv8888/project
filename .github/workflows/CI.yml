@@ -37,27 +37,35 @@ jobs:
         file: ./Docker/Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/wordpress_app:${{ steps.tag.outputs.tag }}
-        
-    - uses: cschleiden/replace-tokens@v1
+ 
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v1
       with:
-        files: '["./k8s_template/wp-deploy.yml"]'
-      env:
-        TAG: ${{ steps.tag.outputs.tag }}
+        token: ${{ secrets.PAT_TOKEN }}
+        repository: alexv8888/manifests
+        event-type: new-image
+        client-payload: '{"image": "alexv8288/wordpress_app:${{ steps.tag.outputs.tag }}"}' 
         
-    - name: Test manifests
-      continue-on-error: true
-      uses: instrumenta/kubeval-action@master
-      with:
-        files: ./k8s_template
+#    - uses: cschleiden/replace-tokens@v1
+#      with:
+#        files: '["./k8s_template/wp-deploy.yml"]'
+#      env:
+#        TAG: ${{ steps.tag.outputs.tag }}
+        
+#    - name: Test manifests
+#      continue-on-error: true
+#      uses: instrumenta/kubeval-action@master
+#      with:
+#        files: ./k8s_template
             
-    - name: Commit and push manifest to the app folder
-      run: |
-        cp ./k8s_template/* ./app
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>"
-        git add app/*
-        git commit -m "add image ${{ steps.tag.outputs.tag }}"
-        git push origin main
+#    - name: Commit and push manifest to the app folder
+#      run: |
+#        cp ./k8s_template/* ./app
+#        git config user.name "GitHub Actions Bot"
+#        git config user.email "<>"
+#        git add app/*
+#        git commit -m "add image ${{ steps.tag.outputs.tag }}"
+#        git push origin main
         
     - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
