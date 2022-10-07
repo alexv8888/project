@@ -161,7 +161,7 @@ RUN set -eux; \
 
 VOLUME /var/www/html
 
-RUN echo "<?php phpinfo( ); ?>" > /var/www/html/wp-admin/phpinfo.php
+RUN echo "<?php phpinfo( ); ?>" > wp-admin/phpinfo.php
 
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
 COPY docker-entrypoint.sh /usr/local/bin/
