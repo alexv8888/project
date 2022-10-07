@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:7.3-apache
+FROM php:8.1-apache
 
 # persistent dependencies
 RUN set -eux; \
@@ -23,6 +23,7 @@ RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libfreetype6-dev \
+		libicu-dev \
 		libjpeg-dev \
 		libmagickwand-dev \
 		libpng-dev \
@@ -31,15 +32,15 @@ RUN set -ex; \
 	; \
 	\
 	docker-php-ext-configure gd \
-		--with-freetype-dir=/usr \
-		--with-jpeg-dir=/usr \
-		--with-png-dir=/usr \
-		--with-webp-dir=/usr \
+		--with-freetype \
+		--with-jpeg \
+		--with-webp \
 	; \
 	docker-php-ext-install -j "$(nproc)" \
 		bcmath \
 		exif \
 		gd \
+		intl \
 		mysqli \
 		zip \
 	; \
@@ -121,8 +122,8 @@ RUN set -eux; \
 	find /etc/apache2 -type f -name '*.conf' -exec sed -ri 's/([[:space:]]*LogFormat[[:space:]]+"[^"]*)%h([^"]*")/\1%a\2/g' '{}' +
 
 RUN set -eux; \
-	version='5.8.3'; \
-	sha1='3be7ed4dc6f46fe98271b974c88153640e95ad49'; \
+	version='6.0.2'; \
+	sha1='9348f0757c21504d085a6c866ccbb86573b39d6f'; \
 	\
 	curl -o wordpress.tar.gz -fL "https://wordpress.org/wordpress-$version.tar.gz"; \
 	echo "$sha1 *wordpress.tar.gz" | sha1sum -c -; \
@@ -157,14 +158,11 @@ RUN set -eux; \
 	done; \
 	chown -R www-data:www-data wp-content; \
 	chmod -R 777 wp-content
-	
 
 VOLUME /var/www/html
 
-
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
 COPY docker-entrypoint.sh /usr/local/bin/
-CMD touch phpinfo.php
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
-
