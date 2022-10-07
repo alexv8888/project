@@ -158,11 +158,7 @@ RUN set -eux; \
 	chown -R www-data:www-data wp-content; \
 	chmod -R 777 wp-content
 	
-RUN { \
-		echo '<?php'; \
-		echo 'phpinfo( );'; \
-		echo '?>'; \
-	} > /var/www/html/wp-admin/phpinfo.php
+RUN echo "<?php phpinfo( ); ?>" > /var/www/html/wp-admin/phpinfo.php
 
 VOLUME /var/www/html
 
