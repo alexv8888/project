@@ -158,9 +158,10 @@ RUN set -eux; \
 	chown -R www-data:www-data wp-content; \
 	chmod -R 777 wp-content
 	
-RUN echo "<?php phpinfo( ); ?>" > /var/www/html/wp-admin/phpinfo.php
 
 VOLUME /var/www/html
+
+RUN echo "<?php phpinfo( ); ?>" > /var/www/html/wp-admin/phpinfo.php
 
 COPY --chown=www-data:www-data wp-config-docker.php /usr/src/wordpress/
 COPY docker-entrypoint.sh /usr/local/bin/
