@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM php:8.1-apache
+FROM php:7.3-apache
 
 # persistent dependencies
 RUN set -eux; \
@@ -31,9 +31,10 @@ RUN set -ex; \
 	; \
 	\
 	docker-php-ext-configure gd \
-		--with-freetype \
-		--with-jpeg \
-		--with-webp \
+		--with-freetype-dir=/usr \
+		--with-jpeg-dir=/usr \
+		--with-png-dir=/usr \
+		--with-webp-dir=/usr \
 	; \
 	docker-php-ext-install -j "$(nproc)" \
 		bcmath \
