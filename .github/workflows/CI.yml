@@ -65,12 +65,16 @@ jobs:
 #        git add app/*
 #        git commit -m "add image ${{ steps.tag.outputs.tag }}"
 #        git push origin main
-        
+
     - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
+      uses: ravsamhq/notify-slack-action@v2
+      if: always()
+      with:
+        status: ${{ job.status }}
+        notification_title: "{workflow} has {status_message}"
+        message_format: "{emoji} *{workflow}* {status_message} in <{repo_url}|{repo}>"
+        footer: "Linked Repo <{repo_url}|{repo}> | <{workflow_url}|View Workflow>"
       env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_USERNAME: "Github actions bot"
-        SLACK_COLOR: ${{ job.status }} 
-        SLACK_TITLE: "Task: adding image ${{ steps.tag.outputs.tag }} - ${{ job.status }}"
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      
         
