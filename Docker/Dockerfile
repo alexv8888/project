@@ -4,7 +4,7 @@
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-#FvROM php:8.1-apache
+#Fv ROM php:8.1-apache
 
 # persistent dependencies
 RUN set -eux; \
